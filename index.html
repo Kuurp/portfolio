@@ -216,6 +216,7 @@
           <h2>Contact me !</h2>
           <div class="contact-container">
             <form id="contact-form" name="gform" enctype="text/plain" action="https://docs.google.com/forms/d/e/1FAIpQLSczy0KYTaNPyorqo6c1DnJ3fn0t9aWaqhCcsl-wzO-jl9rk8g/formResponse?" target="hidden_iframe" onsubmit="submitted=true;">
+              <h3>Send a message</h3>
               <input type="text" name="entry.1503025077" id="entry.1503025077" placeholder="Name" required/>
 
               <input type="email" name="entry.1044371270" id="entry.1044371270" placeholder="Email" required/>
@@ -225,7 +226,29 @@
               <button type="submit" onclick="sendForm()">Send</button>
               <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
             </form>
-            <div class="contact-info">
+            <div class="drawing">
+              <h3>Send a drawing</h3>
+              <div class="drawing-parameters">
+                <div>
+                  <input type="text" id="colorInput" value="#000000" placeholder="#000000"/>
+                </div>
+                <div>
+                  <input type="range" id="brushSize" min="1" max="10" value="2"/>
+                </div>
+              </div>
+              <div id="canvas-wrapper" style="position: relative; display: inline-block; width: 360px; height: 360px;">
+                <canvas id="canvas" width="180" height="180" style="width: 360px; height: 360px; image-rendering: pixelated;"></canvas>
+                <div id="canvasOverlay" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.25); pointer-events: none;"></div>
+                <button id="saveDrawing" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 10px 20px; font-size: 16px; cursor: pointer; background: #ffffff; color: rgb(0, 0, 0); border: 1px solid #000; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); z-index: 10;">
+                  Download your drawing
+                </button>
+              </div>
+              <br>
+              <button id="send">Send</button>
+
+              <script src="/src/canvas.js"></script>
+            </div>
+             <div class="contact-info">
               <div class="contact-item">
                 <img src="/svg/cv.svg" alt="CV" class="contact-svg">
                 <a href="CV Gilles Gonzalez Oropeza.pdf" download>Download my CV</a>
@@ -244,6 +267,7 @@
               </div>
             </div>
           </div>
+           
         </section>
       </div>
     </div>
