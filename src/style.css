@@ -1325,9 +1325,14 @@ body.home-active #navbar {
   margin: 0 auto;
 }
 
-button {
-  margin-top: 15px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
+@media (max-width: 1600px) {
+  #contact .contact-container {
+    margin-left: 20%;
+  }
+}
+
+@media (max-width: 1450px) {
+  #contact .contact-container {
+    margin-left: 15%;
+  }
 }
