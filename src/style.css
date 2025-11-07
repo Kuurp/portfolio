@@ -36,11 +36,11 @@ body.light-theme {
   --gradient2-dark: #e6d1a6;
 }
 
-.dark-theme .navbar-svg, .dark-theme .contact-svg, .dark-theme .theme-svg {
+.dark-theme .navbar-svg, .dark-theme .contact-svg, .dark-theme .theme-svg, .dark-theme .undo-svg {
   filter: invert(1) brightness(90%);
 }
 
-.light-theme .navbar-svg, .light-theme .contact-svg, .light-theme .theme-svg {
+.light-theme .navbar-svg, .light-theme .contact-svg, .light-theme .theme-svg, .light-theme .undo-svg {
   filter: invert(0) brightness(90%);
 }
 
@@ -50,6 +50,10 @@ body.light-theme {
 
 .light-theme #contact .contact-item:hover .contact-svg {
   filter: invert(0) brightness(100%);
+}
+
+.undo-svg {
+  width: 24px;
 }
 
 #theme-toggle {
@@ -638,7 +642,7 @@ section h2 {
   box-shadow: 0 2px 16px rgba(0,0,0,0.18);
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 8px;
 
   max-width: 400px;
   width: 100%;
@@ -647,7 +651,7 @@ section h2 {
 
 #contact h3 {
   font-size: 1.5rem;
-  margin: 0 0 12px 0;
+  margin: 0;
   color: var(--text);
   text-align: center;
 }
@@ -1323,6 +1327,11 @@ body.home-active #navbar {
 
 #canvas-wrapper {
   margin: 0 auto;
+}
+
+#undoDrawing {
+  height: 27px;
+  padding: 3px;;
 }
 
 @media (max-width: 1600px) {

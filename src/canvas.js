@@ -4,6 +4,7 @@ const colorInput = document.getElementById('colorInput');
 const brushSize = document.getElementById('brushSize');
 const saveDrawingBtn = document.getElementById('saveDrawing');
 const canvasOverlay = document.getElementById('canvasOverlay');
+const undoBtn = document.getElementById('undoDrawing');
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwrob4SF38UzR-s_FrrIwqXo7rvgpEvPmTA8WPJE65ZWHs5CYMNwIX3_LhNgsOFH9TR/exec';
 
 // Initial setup
@@ -11,6 +12,42 @@ ctx.fillStyle = '#ffffff';
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.strokeStyle = document.getElementById('colorInput').value || '#000000';
 ctx.lineWidth = 2;
+
+// Undo manager
+const UNDO_LIMIT = 200;
+const undoStack = [];
+
+function updateUndoButton() {
+  if (undoBtn) undoBtn.disabled = undoStack.length <= 1;
+}
+
+function pushState() {
+  try {
+    const snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    if (undoStack.length >= UNDO_LIMIT) {
+      undoStack.shift(); // drop oldest
+    }
+    undoStack.push(snapshot);
+    updateUndoButton();
+  } catch (e) {
+    // getImageData can throw if canvas is tainted; ignore to avoid breaking drawing
+    console.log('Unable to snapshot canvas state for undo:', e);
+  }
+}
+
+function undo() {
+  if (undoStack.length <= 1) return; // keep initial
+  // Remove current state
+  undoStack.pop();
+  const previous = undoStack[undoStack.length - 1];
+  if (previous) {
+    ctx.putImageData(previous, 0, 0);
+  }
+  updateUndoButton();
+}
+
+// Push initial blank state
+pushState();
 
 // Color input change handler, TODO do a proper thing to pick a color instead of just a hex code
 colorInput.addEventListener('input', (e) => {
@@ -28,16 +65,42 @@ brushSize.addEventListener('input', (e) => {
 
 // Drawing
 let drawing = false;
+let didDrawInStroke = false;
+let lastX = 0, lastY = 0;
 canvas.addEventListener('mousedown', e => {
   drawing = true;
+  didDrawInStroke = false;
   ctx.beginPath();
   const rect = canvas.getBoundingClientRect();
   const scaleX = canvas.width / rect.width;
   const scaleY = canvas.height / rect.height;
-  ctx.moveTo(e.offsetX * scaleX, e.offsetY * scaleY);
+  lastX = e.offsetX * scaleX;
+  lastY = e.offsetY * scaleY;
+  ctx.moveTo(lastX, lastY);
 });
-canvas.addEventListener('mouseup', () => drawing = false);
-canvas.addEventListener('mouseleave', () => drawing = false);
+canvas.addEventListener('mouseup', () => {
+  drawing = false;
+  if (didDrawInStroke) {
+    pushState();
+  } else {
+    ctx.beginPath();
+    ctx.arc(lastX, lastY, Math.max(1, ctx.lineWidth / 2), 0, Math.PI * 2);
+    const prevFill = ctx.fillStyle;
+    ctx.fillStyle = ctx.strokeStyle;
+    ctx.fill();
+    ctx.fillStyle = prevFill;
+    pushState();
+  }
+  didDrawInStroke = false;
+});
+canvas.addEventListener('mouseleave', () => {
+  // Only consider this a stroke end if we were actively drawing when leaving
+  if (drawing && didDrawInStroke) {
+    pushState();
+  }
+  drawing = false;
+  didDrawInStroke = false;
+});
 canvas.addEventListener('mousemove', e => {
   if (!drawing) return;
   const rect = canvas.getBoundingClientRect();
@@ -45,6 +108,7 @@ canvas.addEventListener('mousemove', e => {
   const scaleY = canvas.height / rect.height;
   ctx.lineTo(e.offsetX * scaleX, e.offsetY * scaleY);
   ctx.stroke();
+  didDrawInStroke = true;
 });
 
 // Save drawing
@@ -53,6 +117,22 @@ saveDrawingBtn.addEventListener('click', () => {
   link.download = 'my-drawing.png';
   link.href = canvas.toDataURL('image/png');
   link.click();
+});
+
+
+if (undoBtn) {
+  undoBtn.addEventListener('click', () => {
+    undo();
+  });
+}
+
+// Ctrl + z
+window.addEventListener('keydown', (e) => {
+  const isUndoKey = (e.ctrlKey || e.metaKey) && !e.shiftKey && e.key.toLowerCase() === 'z';
+  if (isUndoKey) {
+    e.preventDefault();
+    undo();
+  }
 });
 
 
