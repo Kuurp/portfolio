@@ -230,7 +230,27 @@
               <h3>Send a drawing</h3>
               <div class="drawing-parameters">
                 <div>
-                  <input type="text" id="colorInput" value="#000000" placeholder="#000000"/>
+                  <!-- Color picker trigger & popup -->
+                  <div id="colorPickerTrigger" aria-label="Choose color" title="Choose color"></div>
+                  <div id="colorPickerPopup" class="hidden" role="dialog" aria-label="Color picker">
+                    <div class="cp-header">
+                      <span class="cp-title">Color picker</span>
+                      <input id="cp-hex" type="text" value="#000000" maxlength="9" spellcheck="false" aria-label="Hex color" />
+                      <button type="button" id="closeColorPicker" aria-label="Close" class="cp-close">✖</button>
+                    </div>
+                    <div class="cp-body">
+                      <div class="cp-sv-wrapper">
+                        <div id="cp-sv" class="cp-sv">
+                          <div id="cp-sv-cursor" class="cp-sv-cursor"></div>
+                        </div>
+                      </div>
+                      <div class="cp-right">
+                        <div id="cp-hue" class="cp-hue">
+                          <div id="cp-hue-cursor" class="cp-hue-cursor"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div>
                   <input type="range" id="brushSize" min="1" max="10" value="2"/>
