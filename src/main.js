@@ -3,6 +3,7 @@ import PerfectScrollbar from 'perfect-scrollbar';
 import Typewriter from 'typewriter-effect/dist/core';
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
 import { initScene, changeTheme, setCurrentSection } from './scene.js';
+import './canvas.js';
 
 const originalTypewriterStrings = [
   'I am a computer graphics student',
