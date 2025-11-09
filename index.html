@@ -51,8 +51,8 @@
           });
       }
     </script>
-    <script type="module" crossorigin src="/portfolio/assets/index-BhzCpfMi.js"></script>
-    <link rel="stylesheet" crossorigin href="/portfolio/assets/index-CaBQMfAS.css">
+    <script type="module" crossorigin src="/portfolio/assets/index-N2MCf-gJ.js"></script>
+    <link rel="stylesheet" crossorigin href="/portfolio/assets/index-DEo34oQe.css">
   </head>
   <body class="dark-theme">
       <button id="theme-toggle" aria-label="Toggle theme" style="margin-left:auto;margin-right:1rem;background:none;border:none;cursor:pointer;font-size:1.3rem;color:var(--text-darker);">
@@ -216,6 +216,7 @@
           <h2>Contact me !</h2>
           <div class="contact-container">
             <form id="contact-form" name="gform" enctype="text/plain" action="https://docs.google.com/forms/d/e/1FAIpQLSczy0KYTaNPyorqo6c1DnJ3fn0t9aWaqhCcsl-wzO-jl9rk8g/formResponse?" target="hidden_iframe" onsubmit="submitted=true;">
+              <h3>Send a message</h3>
               <input type="text" name="entry.1503025077" id="entry.1503025077" placeholder="Name" required/>
 
               <input type="email" name="entry.1044371270" id="entry.1044371270" placeholder="Email" required/>
@@ -225,7 +226,54 @@
               <button type="submit" onclick="sendForm()">Send</button>
               <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
             </form>
-            <div class="contact-info">
+            <div class="drawing">
+              <h3>Send a drawing</h3>
+              <div class="drawing-parameters">
+                <div>
+                  <!-- Color picker trigger & popup -->
+                  <div id="colorPickerTrigger" aria-label="Choose color" title="Choose color"></div>
+                  <div id="colorPickerPopup" class="hidden" role="dialog" aria-label="Color picker">
+                    <div class="cp-header">
+                      <span class="cp-title">Color picker</span>
+                      <input id="cp-hex" type="text" value="#000000" maxlength="9" spellcheck="false" aria-label="Hex color" />
+                      <button type="button" id="closeColorPicker" aria-label="Close" class="cp-close">✖</button>
+                    </div>
+                    <div class="cp-body">
+                      <div class="cp-sv-wrapper">
+                        <div id="cp-sv" class="cp-sv">
+                          <div id="cp-sv-cursor" class="cp-sv-cursor"></div>
+                        </div>
+                      </div>
+                      <div class="cp-right">
+                        <div id="cp-hue" class="cp-hue">
+                          <div id="cp-hue-cursor" class="cp-hue-cursor"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <input type="range" id="brushSize" min="1" max="10" value="2"/>
+                </div>
+                <div>
+                  <button id="undoDrawing" type="button" disabled>
+                    <img class="undo-svg" src="/portfolio/svg/undo.svg" alt="Undo">
+                  </button>
+                </div>
+              </div>
+              <div id="canvas-wrapper">
+                <canvas id="canvas" width="180" height="180"></canvas>
+                <div id="canvasOverlay" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.25); pointer-events: none;"></div>
+                <button id="saveDrawing" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 10px 20px; font-size: 16px; cursor: pointer; background: #ffffff; color: rgb(0, 0, 0); border: 1px solid #000; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); z-index: 10;">
+                  Download your drawing
+                </button>
+              </div>
+              <br>
+              <button id="send">Send</button>
+
+              <script src="/src/canvas.js"></script>
+            </div>
+             <div class="contact-info">
               <div class="contact-item">
                 <img src="/portfolio/svg/cv.svg" alt="CV" class="contact-svg">
                 <a href="CV Gilles Gonzalez Oropeza.pdf" download>Download my CV</a>
@@ -244,6 +292,7 @@
               </div>
             </div>
           </div>
+           
         </section>
       </div>
     </div>
