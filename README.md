@@ -2,4 +2,4 @@
 
 My personnal website, developped using Javascript and ThreeJS.
 
-https://github.com/Kuuro-neko/portfolio
+https://github.com/kuurp/portfolio
